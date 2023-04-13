@@ -1,3 +1,10 @@
+/* 和远程仓库建立连接 */
+git remote add origin git@github.com:lpandxhj/ownerh5.git
+/* 首次提交 */
+git add .
+git commit -m 首次提交
+git push -u origin master
+
 1.项目clone
 
 git clone git://xxx.git
