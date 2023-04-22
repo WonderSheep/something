@@ -23,3 +23,48 @@ greet.apply(person1); // 输出：Hello, Alice!
 const person2 = { name: 'Alice' };
 const greetPerson = greet.bind(person2);
 greetPerson(); // 输出：Hello, Alice!
+
+//手写call
+
+//function类的原型链上添加自己写的call给别的函数调用
+Function.prototype.myCall = function(target,...args){
+  target = target || window //当target不存在时,给个window
+  const symbolKey = Symbol();//创造独一无二的变量
+  target[symbolKey] = this;//这里的this其实就是函数，将函数加到调用的对象身上去
+  //例如 Person.say.myCall(Person2)时,myCall的this其实就是say,就比如obj.say()的this是obj一样，就近原则myCall的this就是函数，这里把函数赋值到调用的对象的身上
+  const res = target[symbolKey](...args)//调用函数
+  delete target[symbolKey];//调用完了立马删掉
+  return res;//返回结果
+}
+
+//难点就是这里this赋值的理解，实际上就是把函数(this)当成个对象，然后赋值给target
+//例如 Person.say.myCall(Person2)时,myCall的this其实就是say,就比如obj.say()的this是obj一样，就近原则myCall的this就是函数，这里把函数赋值到调用的对象的身上
+
+
+//apply其实也一样
+
+Function.prototype.myApply = function(target,...args){
+  target = target || window //当target不存在时,给个window
+  const symbolKey = Symbol();//创造独一无二的变量
+  target[symbolKey] = this;//这里的this其实就是函数，将函数加到调用的对象身上去
+  //例如 Person.say.myCall(Person2)时,myCall的this其实就是say,就比如obj.say()的this是obj一样，就近原则myCall的this就是函数，这里把函数赋值到调用的对象的身上
+  const res = target[symbolKey](...args)//调用函数
+  delete target[symbolKey];//调用完了立马删掉
+  return res;//返回结果
+}
+
+//完全套用
+
+//手撕bind
+
+Function.prototype.myBind = function(target,...outArgs){
+  target = target || {} //如果没有传入target的话,那调用的可不就是个空对象嘛
+  const symbolKey = Symbol();
+  target[symbolKey] = this;//再说一次，将调用的函数添加到target身上
+  return function(...innerArgs){
+    const res = target[symbolKey](...outArgs,...innerArgs);
+    //这里传入的参数说下,第一次用bind的时候可以传一次参数,返回的函数调用时也可以再传一次参数
+    //不需要delect这个函数，必须保证第二次调用时不出问题
+    return res
+  }
+}
