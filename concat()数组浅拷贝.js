@@ -4,8 +4,9 @@
 
 const arr1 = [1];
 const arr2 = [2];
+const arr3 = [3];
 
-const arr3 = arr1.concat(arr2);
+const arr4 = arr1.concat(arr2,arr3);
 
 console.log(arr3);
-//[1,2]
+//[1,2,3]
