@@ -1,0 +1,8 @@
+在ECMAScript中，引用类型是一种数据结构，用于将数据和功能组织在一起。
+
+在ECMAScript关于类型的定义中，只给出了Object类型，实际上，我们平时使用的很多引用类型的变量，并不是由Object构造的，但是它们原型链的终点都是Object，这些类型都属于引用类型。
+
+Array 数组
+Date 日期
+RegExp 正则
+Function 函数
